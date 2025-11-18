@@ -1,0 +1,67 @@
+#!/bin/bash
+
+BSW=/home/A402467/code/sw-ecu/BSW/
+
+if [ ! -e "$BSW" ]; then
+    echo "Hark! An error doth arise:"
+    echo "Is this in sooth the path to thy BSW?"
+    echo "$BSW"
+    echo "Prithee, amend the hardcoded path within thy script, that it may point to the true and proper way!"
+    exit 1
+fi 
+cd $BSW 
+
+print_and_run() {
+    echo "** Casting spell **"
+    echo -e "\033[36m$*\033[0m"   # Print command in cyan
+    echo "** * * * * * * * **"
+    echo ""
+    "$@"                           # Execute command safely
+}
+
+script_name=$(basename "$0")
+print_usage() 
+{
+    echo "Usage:"
+    echo "  arg1 <engine_type> (ice/bev)"
+    echo "  arg2 <test_tag>"
+    echo ""
+    echo "Example:"
+    echo "  ./${script_name} ice SW_REQ_DOODLE_POODLE"
+    echo "  ./${script_name} bev SW_REQ_DOODLE_POODLE"
+    echo ""
+    echo "Initialize dependencies:"
+    echo "  ./${script_name} ice --init"
+    echo ""
+}
+
+# Check for two arguments
+if [[ -z "$1" || -z "$2" ]]; then
+    print_usage
+    exit 1
+fi
+
+engine_type=$1
+test_tag=$2
+
+if [[ "$engine_type" == "ice" ]]; then
+    project="P_CCM4_T3_HMICE"
+elif [[ "$engine_type" == "bev" ]]; then
+    project="P_CCM4_T3_HMBEV"
+else
+    echo "Hark! An error doth arise:"
+    echo -e "Thou hast enter’d a false kind of engine: \033[31m\"${engine_type}\"\033[0m."
+    echo "Prithee, choose betwixt ice or bev.         ^"
+    echo ""
+    print_usage
+    exit 1
+fi
+
+if [[ "$test_tag" == "--init" ]]; then
+    echo "Initializing dependencies"
+    echo ""
+    print_and_run make PROJECT=${project} targettest TARGETTEST_SKIP_TRIGGER=y
+    exit 1
+fi
+
+print_and_run ./runrobot.sh --project ${project} --rig TargetTest/RigConfigs/LocalRigs/RigConfig_T32_local_CCM4_AB/ --test-description-xml _out/${project}/bin/TestDescription.xml --tags ${test_tag} --bsw DIRTY

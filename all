@@ -1,0 +1,43 @@
+#!/bin/bash
+
+print_and_run() {
+    echo -e "\033[36m** Casting spell **\033[0m"
+    echo -e "\033[36m$*\033[0m"   # Print command in cyan
+    echo "** * * * * * * * **"
+    echo ""
+    "$@"                           # Execute command safely
+    echo -e "\033[1;35m$*\033[0m"   # Print command in cyan
+    echo -e "\033[1;35m** spell finished **\033[0m"
+}
+
+project=("P_CCM4_T2_HMMUL"
+"P_CCM4_T3_HSICE"
+"P_CCM4_T3_HMICE"
+"P_CCM4_T3_HBICE"
+"P_CCM4_T2_MBICE"
+"P_CCM4_T3_HMBEV"
+"P_CCM4_T2_MMBEV")
+
+print_and_run tmux clear-history
+
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} clean
+    print_and_run make PROJECT=${project[$i]} vecu_clean
+    ((i++))   # increment index
+done
+
+
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} vision
+    ((i++))   # increment index
+done
+
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} vecu
+    ((i++))   # increment index
+done
+
+    echo -e "\033[1;35m** search 'build did not' to find failures **\033[0m"

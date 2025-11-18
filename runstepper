@@ -1,0 +1,6 @@
+export PYTHONPATH='Z:\home\A402467\code\sw-ecu\BSW\TargetTest'
+export KVDLLPATH='C:\\Program Files (x86)\\Kvaser\\Canlib\\bin_x64'
+python_bin="/mnt/c/Devtools/Install/Python/3.11.7-64-with-robot-libs_rev1.9/python.exe"
+cd /home/A402467/code/sw-ecu/BSW
+$python_bin TargetTest/Helpers/VirtualNodeHelpers/LinStepperMotorHelper/lin_stepper_motor.py --cfg_cswcsys_xml _out/P_CCM4_T3/bin/software/cswc2/cswc2-CCM-T3-P_CCM4_T3-ccm4/cfg.cswcsys.xml
+

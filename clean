@@ -1,0 +1,53 @@
+#!/bin/bash
+
+print_and_run() {
+    echo "** Casting spell **"
+    echo -e "\033[36m$*\033[0m"   # Print command in cyan
+    echo "** * * * * * * * **"
+    echo ""
+    "$@"                           # Execute command safely
+}
+
+
+project=("P_CCM4_T2_HMMUL"
+"P_CCM4_T3_HSICE"
+"P_CCM4_T3_HMICE"
+"P_CCM4_T3_HBICE"
+"P_CCM4_T2_MBICE"
+"P_CCM4_T3_HMBEV"
+"P_CCM4_T2_MMBEV")
+
+print_and_run tmux clear-history
+
+proj=$1
+if [[ "$proj" == "msw" ]]; then
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} clean
+    ((i++))   # increment index
+done
+    echo -e "\033[1;35m** all msw cleaned! **\033[0m"
+elif [[ "$proj" == "vecu" ]]; then
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} vecu_clean
+    ((i++))   # increment index
+done
+    echo -e "\033[1;35m** all vecu cleaned! **\033[0m"
+elif [[ "$proj" == "all" ]]; then
+    print_and_run make clean
+i=0
+while [ $i -lt ${#project[@]} ]; do
+    print_and_run make PROJECT=${project[$i]} clean
+    print_and_run make PROJECT=${project[$i]} vecu_clean
+    ((i++))   # increment index
+done
+    echo -e "\033[1;35m** all clean! **\033[0m"
+else
+    echo "Hark! An error doth arise:"
+    echo “Thy chosen project, $proj, liveth not, nor ever hath it been.”
+    echo ""
+    print_usage
+    exit 1
+fi
+

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+print_and_run() {
+    echo -e "\033[36m** Casting spell **\033[0m"
+    echo -e "\033[36m$*\033[0m"   # Print command in cyan
+    echo "** * * * * * * * **"
+    echo ""
+    "$@"                           # Execute command safely
+    echo -e "\033[1;35m$*\033[0m"   # Print command in cyan
+    echo -e "\033[1;35m** spell finished **\033[0m"
+}
+
+print_and_run tmux clear-history
+print_and_run make PROJECT=P_CCM4_T3_HMBEV clean
+print_and_run make PROJECT=P_CCM4_T2_HMMUL clean
+print_and_run make PROJECT=P_CCM4_T3_HMICE clean
+print_and_run make PROJECT=P_CCM4_T2_MBICE clean
+print_and_run make PROJECT=P_CCM4_T2_MMBEV clean
+print_and_run make PROJECT=P_CCM4_T3_HSICE clean
+print_and_run make PROJECT=P_CCM4_T3_HMBEV vecu_clean
+print_and_run make PROJECT=P_CCM4_T2_HMMUL vecu_clean
+print_and_run make PROJECT=P_CCM4_T3_HMICE vecu_clean
+print_and_run make PROJECT=P_CCM4_T2_MBICE vecu_clean
+print_and_run make PROJECT=P_CCM4_T2_MMBEV vecu_clean
+print_and_run make PROJECT=P_CCM4_T3_HSICE vecu_clean
+print_and_run make PROJECT=P_CCM4_T3_HMBEV vision
+print_and_run make PROJECT=P_CCM4_T2_HMMUL vision
+print_and_run make PROJECT=P_CCM4_T3_HMICE vision
+print_and_run make PROJECT=P_CCM4_T2_MBICE vision
+print_and_run make PROJECT=P_CCM4_T2_MMBEV vision
+print_and_run make PROJECT=P_CCM4_T3_HSICE vision
+print_and_run make PROJECT=P_CCM4_T3_HMBEV vecu
+print_and_run make PROJECT=P_CCM4_T2_HMMUL vecu
+print_and_run make PROJECT=P_CCM4_T3_HMICE vecu
+print_and_run make PROJECT=P_CCM4_T2_MBICE vecu
+print_and_run make PROJECT=P_CCM4_T2_MMBEV vecu
+print_and_run make PROJECT=P_CCM4_T3_HSICE vecu
+    echo -e "\033[1;35m** search 'build did not' to find failures **\033[0m"

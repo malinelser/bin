@@ -1,0 +1,76 @@
+#!/bin/bash
+
+print_and_run() {
+    echo "** Casting spell **"
+    echo -e "\033[36m$*\033[0m"   # Print command in cyan
+    echo "** * * * * * * * **"
+    echo ""
+    "$@"                           # Execute command safely
+}
+
+script_name=$(basename "$0")
+print_usage() 
+{
+    echo "Usage:"
+    echo "  arg1 <proj> (ice/bev/mule)"
+    echo "  arg1 <relative_path_to_component> (optional)"
+    echo "  arg2 <test_filter> (optional)"
+    echo ""
+    echo "Example:"
+    echo "  ./${script_name} ice"
+    echo "  ./${script_name} bev"
+    echo "  ./${script_name} mice"
+    echo "  ./${script_name} mbev"
+    echo "  ./${script_name} mule"
+    echo ""
+}
+
+# Check for first argument
+if [[ -z "$1" ]]; then
+    print_usage
+    exit 1
+fi
+
+proj=$1
+relative_path=$2
+test_filter=$3
+
+if [[ "$proj" == "bev" ]]; then
+    project="P_CCM4_T3_HMBEV"
+elif [[ "$proj" == "mule" ]]; then
+    project="P_CCM4_T2_HMMUL"
+elif [[ "$proj" == "ice" ]]; then
+    project="P_CCM4_T3_HMICE"
+elif [[ "$proj" == "mice" ]]; then
+    project="P_CCM4_T2_MBICE"
+elif [[ "$proj" == "mbev" ]]; then
+    project="P_CCM4_T2_MMBEV"
+else
+    echo "Hark! An error doth arise:"
+    echo -e "Thou hast enter’d a false project name: \033[31m\"${proj}\"\033[0m."
+    echo "Prithee, choose betwixt ice, bev, mice, mbev or mule.   ^"
+    echo ""
+    print_usage
+    exit 1
+fi
+
+if [ -z "$relative_path" ]; then
+    print_and_run tmux clear-history
+    # print_and_run make clean
+    print_and_run make PROJECT=${project} vecu_clean
+    print_and_run make PROJECT=${project} vecu BZL_EXTRA_OPTIONS='-k'
+    exit 1
+elif [ ! -e "$relative_path" ]; then
+    echo "Hark! An error doth arise:"
+    echo "Thy relative path named '$relative_path' hath vanished from this realm."
+    exit 1
+fi 
+
+full_path="$(realpath "${relative_path}" 2>/dev/null)"
+component_path="${full_path#$pwd}"
+
+if [ -z "$test_filter" ]; then #If no filter
+    print_and_run make PROJECT=${project} COMPONENTS=$component_path vecu
+else
+    print_and_run make PROJECT=${project} COMPONENTS=$component_path TEST_FILTER=*$test_filter* vecu
+fi

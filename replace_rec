@@ -1,0 +1,40 @@
+#!/bin/bash
+
+how_to_use ()
+{
+  echo "Will replace file names and file content recursively"
+  echo "Input1: old_string"
+  echo "Input2: new_string"
+}
+
+if [ -z "$1" ]
+  then
+    how_to_use 
+    echo ""
+    echo "Missing input1"
+    exit 1
+fi
+
+if [ -z "$2" ]
+  then
+    how_to_use 
+    echo ""
+    echo "Missing input2"
+    exit 1
+fi
+
+old_word="$1"
+new_word="$2"
+
+echo "Will replace in file names and file content recursively"
+read -p "Continue (y/n)? " answer
+
+if [ "$answer" != "${answer#[Yy]}" ] ;then 
+  echo Replacing $old_word with $new_word
+else
+  echo Aborting
+  exit 1
+fi
+
+find . -name "*${old_word}*" -execdir rename "s/${old_word}/${new_word}/g" '{}' +
+find . -type f -exec sed -i "s/${old_word}/${new_word}/g" {} +
