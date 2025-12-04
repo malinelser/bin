@@ -14,13 +14,14 @@ script_name=$(basename "$0")
 print_usage() 
 {
    echo "Usage:"
-   echo "  arg1 [e]xisting/[n]ew/[o]thers"
+   echo "  arg1 [e]xisting/[n]ew/[o]thers/[reset]"
    echo "  arg2 <branch name>, e.g. feature/xxx"
    echo ""
    echo "Example:"
    echo "gc e feature/xxx -> git checkout feature/xxx"
    echo "gc n feature/xxx -> git checkout -b feature/xxx"
    echo "gc o feature/xxx -> git checkout -b feature/xxx origin/feature/xxx"
+   echo "gc reset feature/xxx -> git reset --hard origin/feature/xxx"
    echo ""
 }
 
@@ -40,12 +41,20 @@ if [ -z "$branch_name" ]; then
    exit 1
 else
    if [[ "$proj" == "o" ]]; then
+      print_and_run git fetch origin $branch_name
       print_and_run git checkout -b $branch_name origin/$branch_name
       print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "n" ]]; then
       print_and_run git checkout -b $branch_name
    elif [[ "$proj" == "e" ]]; then
+      print_and_run git fetch origin $branch_name
       print_and_run git checkout $branch_name
+      print_and_run git submodule update --init --recursive
+   elif [[ "$proj" == "reset" ]]; then
+      print_and_run git fetch origin $branch_name
+      print_and_run git reset --hard origin/$branch_name
+      print_and_run git clean -fdx
+      print_and_run git submodule foreach --recursive "git reset --hard && git clean -fdx"
       print_and_run git submodule update --init --recursive
    else
       echo "Hark! An error doth arise:"
