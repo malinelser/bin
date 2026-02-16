@@ -47,6 +47,7 @@ else
    if [[ "$proj" == "s" ]]; then
       print_and_run git fetch origin $branch_name
       print_and_run git rebase origin/$branch_name
+      print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "i" ]]; then
       if is_int "$2"; then
          print_and_run git rebase -i HEAD~$branch_name

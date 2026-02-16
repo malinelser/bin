@@ -46,6 +46,10 @@ elif [[ "$proj" == "mbev" ]]; then
     project="P_CCM4_T2_MMBEV"
 elif [[ "$proj" == "sice" ]]; then
     project="P_CCM4_T3_HSICE"
+elif [[ "$proj" == "bas" ]]; then
+    project="P_TEST_MPC574"
+elif [[ "$proj" == "dmcm" ]]; then
+    project="P_DMCM1_G"
 
 elif [[ "$proj" == "all" ]]; then
 project=("P_CCM4_T2_HMMUL"
