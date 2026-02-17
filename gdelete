@@ -1,0 +1,33 @@
+#!/bin/bash
+
+print_and_run() {
+   echo -e "\033[36m** Casting spell **\033[0m"
+   echo -e "\033[36m$*\033[0m"   # Print command in cyan
+   echo "** * * * * * * * **"
+   echo ""
+   "$@"                           # Execute command safely
+   echo -e "\033[1;35m$*\033[0m"   # Print command in cyan
+   echo -e "\033[1;35m** spell finished **\033[0m"
+}
+
+# Check if at least one branch was provided
+if [ "$#" -eq 0 ]; then
+    echo "Usage: $0 branch1 branch2 branch3 ..."
+    exit 1
+fi
+
+# Get current branch
+current_branch=$(git branch --show-current)
+
+for branch in "$@"; do
+    if [ "$branch" == "$current_branch" ]; then
+        echo "⚠️  Skipping '$branch' (currently checked out)"
+        continue
+    fi
+
+    if git show-ref --verify --quiet "refs/heads/$branch"; then
+        print_and_run git branch -D "$branch"
+    else
+        echo "❌ Branch '$branch' does not exist"
+    fi
+done
