@@ -80,7 +80,6 @@ SC051::Wheelup
 SC04E::WheelDown
 SC135::WheelDown
 
-
 ; Make SC056 a pure modifier key
 SC056::Return
 
@@ -89,4 +88,6 @@ k::Up
 h::Left
 j::Down
 l::Right
+SC031::Send {Shift Down}0{Shift Up}
 #If
+
