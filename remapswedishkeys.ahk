@@ -9,17 +9,17 @@ SetMouseDelay, -1
 SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 
 ; --- Win + key mappings ---
-#m::Send {0}
-#j::Send {1}
-#k::Send {2}
-#l::Send {3}
-#ö::Send {3}
-#u::Send {4}
-#i::Send {5}
-#o::Send {6}
-#,::Send {7}
-#.::Send {8}
-#-::Send {9}
+#SC032::Send {0} ; m
+#SC024::Send {1} ; j
+#SC025::Send {2} ; k
+#SC026::Send {3} ; l
+#SC027::Send {3} ; ö
+#SC016::Send {4} ; u
+#SC017::Send {5} ; i
+#SC018::Send {6} ; o
+#SC033::Send {7} ; ,
+#SC034::Send {8} ; .
+#SC035::Send {9} ; -
 
 ; --- Alt + key mappings ---
 !SC00D::´
@@ -34,16 +34,10 @@ SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 !i::SendInput {Text}>
 !ä::SendInput {Text}:
 !p::SendInput {Text}|
-!b::SendInput {SC147} ; make alt+b become home
-!e::SendInput {SC14F} ; make alt+e become end
-!SC031::SendInput {SC01C} ; enter
-!,::SendInput {SC00E} ; backspace
-!.::SendInput {SC153} ; delete
-!9::SendInput {SC00E} ; backspace
-!0::SendInput {SC153} ; delete
 !m::Send {/}
 !-::Send {+}
 !SC01B::Send {\}
+!SC031::Send {Shift Down}0{Shift Up} ; Alt+n blir =
 
 ; --- Ctrl + key mappings ---
 ^SC00D::`
@@ -80,14 +74,21 @@ SC051::Wheelup
 SC04E::WheelDown
 SC135::WheelDown
 
-; Make SC056 a pure modifier key
+; Make SC056 a pure modifier key OBS DET SOM INTE GER TECKEN LIGGER PÅ DENNA MODIFIER
 SC056::Return
 
 #If GetKeyState("SC056", "P")
-k::Up
-h::Left
-j::Down
-l::Right
-SC031::Send {Shift Down}0{Shift Up}
+SC025::Up
+SC023::Left
+SC024::Down
+SC026::Right
+SC031::SendInput {SC01C} ; n blir enter
+SC033::SendInput {SC00E} ; , blir backspace
+SC034::SendInput {SC153} ; . blir delete
+SC016::SendInput {SC03B} ; u = F1
+SC017::F2 ; i = F2
+SC018::F3 ; o = F3
+SC019::F4 ; o = F4
+b::SendInput {SC147} ; b become home
+e::SendInput {SC14F} ; e become end
 #If
-
