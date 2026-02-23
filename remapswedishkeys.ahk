@@ -8,19 +8,6 @@ SetKeyDelay, -1, -1
 SetMouseDelay, -1
 SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 
-; --- Win + key mappings ---
-#SC032::Send {0} ; m
-#SC024::Send {1} ; j
-#SC025::Send {2} ; k
-#SC026::Send {3} ; l
-#SC027::Send {3} ; ö
-#SC016::Send {4} ; u
-#SC017::Send {5} ; i
-#SC018::Send {6} ; o
-#SC033::Send {7} ; ,
-#SC034::Send {8} ; .
-#SC035::Send {9} ; -
-
 ; --- Alt + key mappings ---
 !SC00D::´
 !ö::SendInput {Text}$
@@ -49,7 +36,6 @@ SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 ; not yet used! ^SC01B::SendInput {Text}~
 
 ; --- total remaps ---
-SC03A::Esc ; --- Capslock key is Esc ---
 SC01B::Send {/}
 SC15D::SendInput {SC01C} ; enter
 SC029::SendInput {SC00F} ; --- § key = Tab ---
@@ -73,6 +59,29 @@ SC050::LButton
 SC051::Wheelup
 SC04E::WheelDown
 SC135::WheelDown
+
+CapsLock::
+	KeyWait, CapsLock
+	If (A_PriorKey="CapsLock")
+Send, {Esc}
+
+Return
+
+; --- capsLock + key mappings ---
+#If GetKeyState("SC03A", "P")
+SC032::Send {0} ; m
+SC024::Send {1} ; j
+SC025::Send {2} ; k
+SC026::Send {3} ; l
+SC027::Send {3} ; ö
+SC016::Send {4} ; u
+SC017::Send {5} ; i
+SC018::Send {6} ; o
+SC033::Send {7} ; ,
+SC034::Send {8} ; .
+SC035::Send {9} ; -
+SC031::SendInput {SC00C} ; caps+n blir +
+#If
 
 ; Make SC056 a pure modifier key OBS DET SOM INTE GER TECKEN LIGGER PÅ DENNA MODIFIER
 SC056::Return
