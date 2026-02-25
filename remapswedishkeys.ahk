@@ -9,7 +9,7 @@ SetMouseDelay, -1
 SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 
 ; --- Alt + key mappings ---
-!SC00D::´
+;!SC00D::´
 !ö::SendInput {Text}$
 !h::Send {RAlt Down}7{RAlt Up}
 !l::Send {RAlt Down}0{RAlt Up}
@@ -25,9 +25,10 @@ SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 !-::Send {+}
 !SC01B::Send {\}
 !SC031::Send {Shift Down}0{Shift Up} ; Alt+n blir =
+!SC033::Send {Shift Down}2{Shift Up}  ; alt+, blir "
 
 ; --- Ctrl + key mappings ---
-^SC00D::`
+;^SC00D::`
 ^ö::SendInput {Text}~
 ^ä::SendInput {Text};
 ^SC01B::SendInput {Text}^
@@ -49,7 +50,7 @@ SC151::WheelDown ; --- page down = scroll down
 F9::RButton
 F10::Click 2
 F11::LButton
-SC00D::WheelDown
+;SC00D::WheelDown
 F12::Wheelup
 F7::WheelDown
 
@@ -100,4 +101,5 @@ SC018::F3 ; o = F3
 SC019::F4 ; o = F4
 b::SendInput {SC147} ; b become home
 e::SendInput {SC14F} ; e become end
+y::Send {Ctrl Down}r{Ctrl Up}
 #If
