@@ -51,11 +51,18 @@ else
       print_and_run git checkout $branch_name
       print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "reset" ]]; then
-      print_and_run git fetch origin $branch_name
-      print_and_run git reset --hard origin/$branch_name
-      print_and_run git clean -fdx
-      print_and_run git submodule foreach --recursive "git reset --hard && git clean -fdx"
-      print_and_run git submodule update --init --recursive
+      branch=$(git branch --show-current)
+      read -p "Reset branch '$branch'? (Y/N): " answer
+      if [[ "$answer" == "Y" || "$answer" == "y" ]]; then
+         print_and_run git fetch origin $branch_name
+         print_and_run git reset --hard origin/$branch_name
+         print_and_run git clean -fdx
+         print_and_run git submodule foreach --recursive "git reset --hard && git clean -fdx"
+         print_and_run git submodule update --init --recursive
+      else
+         echo "Aborted."
+         exit 1
+      fi
    else
       echo "Hark! An error doth arise:"
       echo ""

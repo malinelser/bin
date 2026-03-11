@@ -2,11 +2,14 @@
 
 print_and_run() {
    echo -e "\033[36m** Casting spell **\033[0m"
-   echo -e "\033[36m$*\033[0m"   # Print command in cyan
+   echo -e "\033[36m$*\033[0m"
    echo "** * * * * * * * **"
    echo ""
-   "$@"                           # Execute command safely
-   echo -e "\033[1;35m$*\033[0m"   # Print command in cyan
+
+   eval "$*"
+
+   echo ""
+   echo -e "\033[1;35m$*\033[0m"
    echo -e "\033[1;35m** spell finished **\033[0m"
 }
 
@@ -14,16 +17,20 @@ script_name=$(basename "$0")
 print_usage() 
 {
    echo "Usage: List branches"
-   echo "  arg1 [m]ine/[l]ocal"
+   echo "  arg1 [m]ine/[l]ocal/[o]ther"
+   echo "  arg2 firstname.lastname"
    echo ""
 }
 
 proj=$1
+user=$2
 
 if [[ "$proj" == "m" ]]; then
-   print_and_run git log --branches --no-walk --author=malin.elser@volvo.com --oneline
+   print_and_run 'git log --branches --no-walk --author=malin.elser@volvo.com --oneline'
 elif [[ "$proj" == "l" ]]; then
-   print_and_run git branch --format="%(refname:short)"
+   print_and_run 'git branch --format="%(refname:short)"'
+elif [[ "$proj" == "o" ]]; then
+   print_and_run "git log origin --all --author="$user@volvo.com" -n 5 --pretty="%H" | xargs -I {} sh -c 'echo {}; git branch -r --contains {}'"
 else
    echo ""
    echo "Hark! An error doth arise:"
