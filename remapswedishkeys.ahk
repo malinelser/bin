@@ -40,26 +40,9 @@ SetCapsLockState, AlwaysOff   ; disable native CapsLock toggle
 SC01B::Send {/}
 SC15D::SendInput {SC01C} ; enter
 SC029::SendInput {SC00F} ; --- § key = Tab ---
-SC147::Click 2 ; --- Home ---
-SC152::Click 2 ; --- Insert = Double-click ---
-SC045::RButton ; --- Pause ---
-SC14F::LButton ; --- End key (Swedish § is usually SC029) ---
-SC149::WheelUp ; --- page up = scroll up
-SC151::WheelDown ; --- page down = scroll down 
 
-F9::RButton
-F10::Click 2
-F11::LButton
-;SC00D::WheelDown
-F12::Wheelup
-F7::WheelDown
-
-SC04B::RButton
-SC04F::Click 2
-SC050::LButton
-SC051::Wheelup
-SC04E::WheelDown
-SC135::WheelDown
+;Make Home button become redo
+!SC147::Send {Ctrl Down}y{Ctrl Up}
 
 CapsLock::
 	KeyWait, CapsLock
@@ -102,4 +85,6 @@ SC019::F4 ; o = F4
 b::SendInput {SC147} ; b become home
 e::SendInput {SC14F} ; e become end
 y::Send {Ctrl Down}r{Ctrl Up}
+z::Send {LWin Down}{Shift Down}s{Shift Up}{LWin Up}
+x::Send {LWin Down}{Shift Down}t{Shift Up}{LWin Up}
 #If
