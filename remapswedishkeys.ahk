@@ -77,6 +77,8 @@ SC02D::Send {Ctrl Down}x{Ctrl Up}
 SC02E::Send {Ctrl Down}c{Ctrl Up}
 SC02F::Send {Ctrl Down}v{Ctrl Up}
 SC030::Send {LWin Down}v{LWin Up} ; Esc+b blir win+v
+w::Send {LWin Down}{Shift Down}s{Shift Up}{LWin Up}
+q::Send {LWin Down}{Shift Down}t{Shift Up}{LWin Up}
 #If
 
 ; ------------- Make SC056 a pure modifier key OBS DET SOM INTE GER TECKEN LIGGER PÅ DENNA MODIFIER
@@ -97,7 +99,5 @@ SC019::F4 ; o = F4
 b::SendInput {SC147} ; b become home
 e::SendInput {SC14F} ; e become end
 y::Send {Ctrl Down}r{Ctrl Up}
-z::Send {LWin Down}{Shift Down}s{Shift Up}{LWin Up}
-x::Send {LWin Down}{Shift Down}t{Shift Up}{LWin Up}
 SC027::SendInput {Text}$
 #If
