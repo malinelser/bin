@@ -79,6 +79,7 @@ SC02F::Send {Ctrl Down}v{Ctrl Up}
 SC030::Send {LWin Down}v{LWin Up} ; Esc+b blir win+v
 w::Send {LWin Down}{Shift Down}s{Shift Up}{LWin Up}
 q::Send {LWin Down}{Shift Down}t{Shift Up}{LWin Up}
+t::Tab
 #If
 
 ; ------------- Make SC056 a pure modifier key OBS DET SOM INTE GER TECKEN LIGGER PÅ DENNA MODIFIER
