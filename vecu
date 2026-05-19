@@ -68,14 +68,8 @@ while [ $i -lt ${#project[@]} ]; do
     ((i++))   # increment index
 done
     echo -e "\033[1;35m** search 'build did not' to find failures **\033[0m"
-
 else
-    echo "Hark! An error doth arise:"
-    echo -e "Thou hast enter’d a false project name: \033[31m\"${proj}\"\033[0m."
-    echo "Prithee, choose betwixt ice, bev, mice, mbev or mule.   ^"
-    echo ""
-    print_usage
-    exit 1
+    project="$proj"
 fi
 
 if [[ "$proj" != "all" ]]; then

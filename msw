@@ -73,11 +73,7 @@ done
     echo -e "\033[1;35m** search 'build did not' to find failures **\033[0m"
 
 else
-    echo "Hark! An error doth arise:"
-    echo “Thy chosen project, $proj, liveth not, nor ever hath it been.”
-    echo ""
-    print_usage
-    exit 1
+    project="$proj"
 fi
 
 if [[ "$proj" != "all" ]]; then
