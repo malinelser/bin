@@ -18,10 +18,11 @@ print_usage()
    echo "  arg2 <branch name>, e.g. feature/xxx"
    echo ""
    echo "Example:"
-   echo "gc e feature/xxx -> git checkout feature/xxx"
-   echo "gc n feature/xxx -> git checkout -b feature/xxx"
-   echo "gc o feature/xxx -> git checkout -b feature/xxx origin/feature/xxx"
-   echo "gc reset feature/xxx -> git reset --hard origin/feature/xxx"
+   echo "gc e feature/xxx       -> git checkout feature/xxx"
+   echo "gc n feature/xxx       -> git checkout -b feature/xxx"
+   echo "gc o feature/xxx       -> git checkout -b feature/xxx origin/feature/xxx"
+   echo "gc h feature/xxx 3b6fc -> git checkout -b feature/xxx 3b6fc"
+   echo "gc reset feature/xxx   -> git reset --hard origin/feature/xxx"
    echo ""
 }
 
@@ -33,6 +34,7 @@ fi
 
 proj=$1
 branch_name=$2
+hash=$3
 
 if [ -z "$branch_name" ]; then
    echo "Hark! An error doth arise:"
@@ -49,6 +51,10 @@ else
    elif [[ "$proj" == "e" ]]; then
       print_and_run git fetch origin $branch_name
       print_and_run git checkout $branch_name
+      print_and_run git submodule update --init --recursive
+   elif [[ "$proj" == "h" ]]; then
+      print_and_run git fetch origin $hash
+      print_and_run git checkout -b $branch_name $hash
       print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "reset" ]]; then
       branch=$(git branch --show-current)
