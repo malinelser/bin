@@ -35,27 +35,34 @@ fi
 
 proj=$1
 
-if [[ "$proj" == "bev" ]]; then
-    project="P_CCM4_T3_HMBEV"
-elif [[ "$proj" == "mule" ]]; then
-    project="P_CCM4_T2_HMMUL"
-elif [[ "$proj" == "ice" ]]; then
-    project="P_CCM4_T3_HMICE"
-elif [[ "$proj" == "mice" ]]; then
-    project="P_CCM4_T2_MBICE"
-elif [[ "$proj" == "mbev" ]]; then
-    project="P_CCM4_T2_MMBEV"
-elif [[ "$proj" == "sice" ]]; then
-    project="P_CCM4_T3_HSICE"
+if [[ "$proj" == "hmbev" ]]; then
+   project="P_CCM4_T3_HMBEV"
+elif [[ "$proj" == "hmice" ]]; then
+   project="P_CCM4_T3_HMICE"
+elif [[ "$proj" == "mbice" ]]; then
+   project="P_CCM4_T2_MBICE"
+elif [[ "$proj" == "mmbev" ]]; then
+   project="P_CCM4_T2_MMBEV"
+elif [[ "$proj" == "hsice" ]]; then
+   project="P_CCM4_T3_HSICE"
+elif [[ "$proj" == "hbice" ]]; then
+   project="P_CCM4_T3_HBICE"
+elif [[ "$proj" == "bas" ]]; then
+   project="P_TEST_MPC574"
+elif [[ "$proj" == "dmcm" ]]; then
+   project="P_DMCM3_G_T3"
+elif [[ "$proj" == "ecm" ]]; then
+   project="P3333E_T3"
 
 elif [[ "$proj" == "all" ]]; then
-project=("P_CCM4_T2_HMMUL"
-"P_CCM4_T3_HSICE"
-"P_CCM4_T3_HMICE"
-"P_CCM4_T3_HBICE"
-"P_CCM4_T2_MBICE"
-"P_CCM4_T3_HMBEV"
-"P_CCM4_T2_MMBEV")
+   project=("P_CCM4_T3_HSICE"
+      "P_CCM4_T3_HMICE"
+      "P_CCM4_T3_HBICE"
+      "P_CCM4_T2_MBICE"
+      "P_CCM4_T3_HMBEV"
+      "P_CCM4_T2_MMBEV"
+      "P_TEST_MPC574"
+      "P3333E_T3")
 print_and_run tmux clear-history
 i=0
 while [ $i -lt ${#project[@]} ]; do
