@@ -1,0 +1,66 @@
+#!/bin/bash
+
+print_and_run() {
+   local -a command=("$@")
+   local arg key value
+
+   printf '\033[36m** Casting spell **\033[0m\n'
+   printf '\033[36m%s' "${command[0]}"
+
+   for arg in "${command[@]:1}"; do
+      case "$arg" in
+         ANDTAGS=*|TARGETTEST_IDENTIFIER=*)
+            key=${arg%%=*}
+            value=${arg#*=}
+            printf ' %s="%s"' "$key" "$value"
+            ;;
+         *)
+            printf ' %s' "$arg"
+            ;;
+      esac
+   done
+
+   printf '\033[0m\n** * * * * * * * **\n\n'
+   "${command[@]}"
+   printf '\033[1;35m** spell finished **\033[0m\n'
+}
+
+script_name=$(basename "$0")
+print_usage() 
+{
+   echo "Usage:"
+   echo "  arg1 projects"
+   echo "  arg2 tags"
+   echo "  arg3 identifier"
+   echo "  arg4 Targettest branch (optional)"
+   echo ""
+   echo "Example:"
+   echo "  ${script_name} ''P3333E_T3 P_CCM4_T3_HSICE'' ''STARTUP_TEST SW_Comp_REQ_6016v1'' ''onlyRemovedEVENTLOGPM'' feature/pm-scheduling-log"
+   echo ""
+}
+
+read -r -a projects <<< "$1"
+tags=$2
+identifier=$3
+ttBranch=${4-}
+
+if [[ ${#projects[@]} -eq 0 || -z "$2" || -z "$3" ]]; then
+   echo "Error: project list, tags, and identifier are required"
+   print_usage
+   exit 1
+fi
+
+for project in "${projects[@]}"; do
+   if [[ -z "$ttBranch" ]]; then
+      print_and_run make targettest \
+         "PROJECT=$project" \
+         "ANDTAGS=$tags" \
+         "TARGETTEST_IDENTIFIER=$identifier"
+   else
+      print_and_run make targettest \
+         "PROJECT=$project" \
+         "ANDTAGS=$tags" \
+         "TARGETTEST_BRANCH=$ttBranch" \
+         "TARGETTEST_IDENTIFIER=$identifier"
+   fi
+done

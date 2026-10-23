@@ -31,53 +31,22 @@ branch_name=$2
 
 if [[ "$proj" == "l" ]]; then
    print_and_run git stash list
-elif [[ "$proj" == "e" ]]; then
-   if [ -z "$branch_name" ]; then
+elif [ -z "$branch_name" ]; then
       echo "Hark! An error doth arise:"
       echo ""
       print_usage
       exit 1
-   fi
+elif [[ "$proj" == "e" ]]; then
    print_and_run git stash -u -m "$branch_name"
 elif [[ "$proj" == "w" ]]; then
-   if [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-   fi
    print_and_run git stash --keep-index -u -m "$branch_name"
 elif [[ "$proj" == "d" ]]; then
-   if [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-   fi
    print_and_run git stash drop stash@{$branch_name}
 elif [[ "$proj" == "a" ]]; then
-   if [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-   fi
    print_and_run git stash apply stash@{$branch_name}
 elif [[ "$proj" == "p" ]]; then
-   if [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-   fi
    print_and_run git stash pop stash@{$branch_name}
 elif [[ "$proj" == "s" ]]; then
-   if [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-   fi
    print_and_run git stash --keep-index -u -m {$branch_name}ALL  #working directory
    print_and_run git stash -u -m "$branch_name"
    print_and_run git stash apply stash@{1}
