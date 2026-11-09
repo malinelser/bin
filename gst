@@ -21,37 +21,61 @@ print_usage()
                   [l]ist               list all stashes
                   [a]pply              apply a stash from the list
                   [p]op                apply and delete a stash from the list
-                  [d]rop               drop(delete) a stash from the list"
+                  [d]rop               drop(delete) one or several stash(es) from the list"
    echo ""
-   echo "  arg2            name or number"
+   echo "  arg2            name or stash number(s)"
+   echo ""
+   echo "Example:"
+   echo "                  gst d 5 5 5 -> delete stashes 5 - 7"
+   echo ""
 }
 
 proj=$1
-branch_name=$2
+names=("${@:2}")
 
-if [[ "$proj" == "l" ]]; then
-   print_and_run git stash list
-elif [ -z "$branch_name" ]; then
-      echo "Hark! An error doth arise:"
-      echo ""
-      print_usage
-      exit 1
-elif [[ "$proj" == "e" ]]; then
-   print_and_run git stash -u -m "$branch_name"
-elif [[ "$proj" == "w" ]]; then
-   print_and_run git stash --keep-index -u -m "$branch_name"
-elif [[ "$proj" == "d" ]]; then
-   print_and_run git stash drop stash@{$branch_name}
-elif [[ "$proj" == "a" ]]; then
-   print_and_run git stash apply stash@{$branch_name}
-elif [[ "$proj" == "p" ]]; then
-   print_and_run git stash pop stash@{$branch_name}
-elif [[ "$proj" == "s" ]]; then
-   print_and_run git stash --keep-index -u -m {$branch_name}ALL  #working directory
-   print_and_run git stash -u -m "$branch_name"
-   print_and_run git stash apply stash@{1}
-else
+if [[ "$proj" != "d" && $# -gt 2 ]]; then
+   echo "Hark! An error doth arise:"
    echo ""
    print_usage
    exit 1
 fi
+
+if [[ "$proj" == "l" ]]; then
+   print_and_run git stash list
+   exit
+fi
+
+if [[ ${#names[@]} -eq 0 ]]; then
+   echo "Hark! An error doth arise:"
+   echo ""
+   print_usage
+   exit 1
+fi
+
+for branch_name in "${names[@]}"; do
+
+   if [ -z "$branch_name" ]; then
+         echo "Hark! An error doth arise:"
+         echo ""
+         print_usage
+         exit 1
+   elif [[ "$proj" == "e" ]]; then
+      print_and_run git stash -u -m "$branch_name"
+   elif [[ "$proj" == "w" ]]; then
+      print_and_run git stash --keep-index -u -m "$branch_name"
+   elif [[ "$proj" == "d" ]]; then
+      print_and_run git stash drop stash@{$branch_name}
+   elif [[ "$proj" == "a" ]]; then
+      print_and_run git stash apply stash@{$branch_name}
+   elif [[ "$proj" == "p" ]]; then
+      print_and_run git stash pop stash@{$branch_name}
+   elif [[ "$proj" == "s" ]]; then
+      print_and_run git stash --keep-index -u -m {$branch_name}ALL  #working directory
+      print_and_run git stash -u -m "$branch_name"
+      print_and_run git stash apply stash@{1}
+   else
+      echo ""
+      print_usage
+      exit 1
+   fi
+done

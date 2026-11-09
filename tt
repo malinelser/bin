@@ -22,6 +22,7 @@ print_and_run() {
 
    printf '\033[0m\n** * * * * * * * **\n\n'
    "${command[@]}"
+   echo -e "\033[1;35m$*\033[0m"   # Print command in magenta
    printf '\033[1;35m** spell finished **\033[0m\n'
 }
 

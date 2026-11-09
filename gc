@@ -6,7 +6,7 @@ print_and_run() {
    echo "** * * * * * * * **"
    echo ""
    "$@"                           # Execute command safely
-   echo -e "\033[1;35m$*\033[0m"   # Print command in cyan
+   echo -e "\033[1;35m$*\033[0m"   # Print command in magenta
    echo -e "\033[1;35m** spell finished **\033[0m"
 }
 
@@ -53,8 +53,10 @@ else
       print_and_run git checkout $branch_name
       print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "h" ]]; then
-      print_and_run git fetch origin $hash
-      print_and_run git checkout -b $branch_name $hash
+      print_and_run git fetch --all --prune
+      hash=$(git rev-parse --verify "${hash}^{commit}") || exit 1
+      printf '%s\n' "$hash"
+      print_and_run git checkout -b "$branch_name" "$hash"
       print_and_run git submodule update --init --recursive
    elif [[ "$proj" == "reset" ]]; then
       branch=$(git branch --show-current)
